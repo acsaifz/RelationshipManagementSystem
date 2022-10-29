@@ -1,9 +1,16 @@
 package hu.acsaifz.rms.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Contact {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String phone;
     private String email;
+    @OneToOne(mappedBy = "contact")
+    private Address address;
 
     public long getId() {
         return id;
@@ -27,5 +34,13 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

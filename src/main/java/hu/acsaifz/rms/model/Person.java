@@ -1,14 +1,22 @@
 package hu.acsaifz.rms.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
+@Entity
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private Map<AddressType, Address> addresses;
+    @OneToMany(mappedBy = "address", cascade = {CascadeType.ALL})
+    @MapKey(name = "addressType")
+    private Map<AddressType, Address> addresses = new EnumMap<>(AddressType.class);
 
     public long getId() {
         return id;

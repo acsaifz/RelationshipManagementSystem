@@ -1,12 +1,23 @@
 package hu.acsaifz.rms.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private AddressType addressType;
     private String country;
     private String postalCode;
     private String city;
     private String address;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "contact_id")
     private Contact contact;
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     public long getId() {
         return id;
@@ -14,6 +25,14 @@ public class Address {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
     }
 
     public String getCountry() {
@@ -54,5 +73,13 @@ public class Address {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
