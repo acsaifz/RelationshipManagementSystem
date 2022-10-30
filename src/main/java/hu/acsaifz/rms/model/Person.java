@@ -17,6 +17,16 @@ public class Person {
     @MapKey(name = "addressType")
     private Map<AddressType, Address> addresses = new EnumMap<>(AddressType.class);
 
+    public Person(){
+
+    }
+
+    public Person(String firstName, String lastName, LocalDate birthDate){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+    }
+
 
     public Address getPermanentAddress(){
         return addresses.get(AddressType.PERMANENT);

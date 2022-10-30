@@ -12,6 +12,16 @@ public class Contact {
     @OneToOne(mappedBy = "contact")
     private Address address;
 
+    public Contact(){
+
+    }
+
+    public Contact(Address address, String phone, String email){
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public long getId() {
         return id;
     }

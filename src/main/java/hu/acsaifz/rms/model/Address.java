@@ -19,6 +19,19 @@ public class Address {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    public Address(){
+
+    }
+
+    public Address(Person person, AddressType addressType, String country, String postalCode, String city, String address){
+        this.person = person;
+        this.addressType = addressType;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.address = address;
+    }
+
     public long getId() {
         return id;
     }
