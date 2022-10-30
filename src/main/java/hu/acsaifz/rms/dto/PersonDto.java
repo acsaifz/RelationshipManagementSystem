@@ -22,6 +22,10 @@ public class PersonDto {
         this.birthDate = person.getBirthDate();
     }
 
+    public Person createPerson(){
+        return new Person(firstName, lastName,birthDate);
+    }
+
     public long getId() {
         return id;
     }
