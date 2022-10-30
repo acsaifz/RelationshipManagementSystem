@@ -47,10 +47,12 @@
                         <div class="col">
                             <span th:text="${person.birthDate}"></span>
                         </div>
-                        <div class="col-1 btn-group" role="group">
-                            <a th:href="@{/person/{id}/edit(id=${person.id})}" role="button" class="btn btn-sm btn-success"><i class="bi bi-pencil"></i></a>
-                            <button type="button" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                        </div>
+                            <div class="col-1" role="group">
+                                <form class="btn-group" th:action="@{/person/{id}/delete(id=${person.id})}" method="post">
+                                    <a th:href="@{/person/{id}/edit(id=${person.id})}" role="button" class="btn btn-sm btn-success"><i class="bi bi-pencil"></i></a>
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </div>
                     </div>
                     <div id="collapseOne" th:id="${'collapse-person-' + person.id}" class="accordion-collapse collapse"
                          aria-labelledby="headingOne" th:aria-labelledby="${'heading-person-'+ person.id}"
