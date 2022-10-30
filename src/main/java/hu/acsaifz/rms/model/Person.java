@@ -3,7 +3,6 @@ package hu.acsaifz.rms.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -17,6 +16,39 @@ public class Person {
     @OneToMany(mappedBy = "address", cascade = {CascadeType.ALL})
     @MapKey(name = "addressType")
     private Map<AddressType, Address> addresses = new EnumMap<>(AddressType.class);
+
+
+    public Address getPermanentAddress(){
+        return addresses.get(AddressType.PERMANENT);
+    }
+
+    public Address getTemporaryAddress(){
+        return addresses.get(AddressType.TEMPORARY);
+    }
+
+    public void setPermanentAddress(Address address){
+        if(address.getAddressType() != AddressType.PERMANENT){
+            throw new IllegalArgumentException("Not permanent address.");
+        }
+
+        addresses.put(address.getAddressType(), address);
+    }
+
+    public void setTemporaryAddress(Address address){
+        if (address.getAddressType() != AddressType.TEMPORARY){
+            throw new IllegalArgumentException("Not temporary address.");
+        }
+
+        addresses.put(address.getAddressType(), address);
+    }
+
+    public boolean hasPermanentAddress(){
+        return getPermanentAddress() != null;
+    }
+
+    public boolean hasTemporaryAddress(){
+        return getTemporaryAddress() != null;
+    }
 
     public long getId() {
         return id;
