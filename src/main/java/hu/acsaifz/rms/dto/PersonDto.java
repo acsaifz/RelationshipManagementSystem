@@ -25,7 +25,7 @@ public class PersonDto {
     }
 
     public Person createPerson(){
-        return new Person(firstName, lastName,birthDate);
+        return new Person(id, firstName, lastName,birthDate);
     }
 
     public long getId() {
