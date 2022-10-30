@@ -22,6 +22,14 @@ public class Contact {
         this.email = email;
     }
 
+    public boolean hasPhone(){
+        return phone != null;
+    }
+
+    public boolean hasEmail(){
+        return email != null;
+    }
+
     public long getId() {
         return id;
     }
