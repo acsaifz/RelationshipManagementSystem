@@ -1,7 +1,10 @@
 package hu.acsaifz.rms.controller;
 
+import hu.acsaifz.rms.dto.AddressDto;
 import hu.acsaifz.rms.dto.PersonDto;
+import hu.acsaifz.rms.model.AddressType;
 import hu.acsaifz.rms.model.Person;
+import hu.acsaifz.rms.service.AddressService;
 import hu.acsaifz.rms.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,12 @@ import java.util.List;
 @Controller
 public class RmsController {
     private PersonService personService;
+    private AddressService addressService;
+
+    @Autowired
+    public void setAddressService(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @Autowired
     public void setPersonService(PersonService personService) {
@@ -52,5 +61,19 @@ public class RmsController {
     public String updatePerson(PersonDto personDto){
         personService.update(personDto);
         return "redirect:/";
+    }
+
+    @PostMapping(value = {"/person/{id}/address/permanent/add"})
+    public String addPermanentAddress(AddressDto addressDto, @PathVariable long id){
+        System.out.println(id);
+        addressService.save(id,addressDto, AddressType.PERMANENT);
+        return "redirect:/person/" + id + "/edit";
+    }
+
+    @PostMapping(value = {"/person/{id}/address/temporary/add"})
+    public String addTemporaryAddress(AddressDto addressDto, @PathVariable long id){
+        System.out.println(id);
+        addressService.save(id,addressDto, AddressType.TEMPORARY);
+        return "redirect:/person/" + id + "/edit";
     }
 }
