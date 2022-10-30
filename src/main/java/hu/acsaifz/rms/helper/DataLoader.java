@@ -52,5 +52,18 @@ public class DataLoader implements ApplicationRunner {
         permanent2.setContact(permanentContact2);
 
         personService.save(person2);
+
+        Person person3 = new Person("Lajos", "Skywalker", LocalDate.of(1975,4,1));
+
+        Address permanent3 = new Address(person3, AddressType.PERMANENT, "Magyarország", "5555", "Lajosmizse", "Fürdő utca 6.");
+        person3.setPermanentAddress(permanent3);
+
+        Contact permanentContact3 = new Contact(permanent3, "+36 70 777 7777", null);
+        permanent3.setContact(permanentContact3);
+
+        Address temporary3 = new Address(person3, AddressType.TEMPORARY, "Magyarország", "6485", "Eger", "Vár köz 4.");
+        person3.setTemporaryAddress(temporary3);
+
+        personService.save(person3);
     }
 }
