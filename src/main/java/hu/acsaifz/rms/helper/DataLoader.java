@@ -39,7 +39,7 @@ public class DataLoader implements ApplicationRunner {
         permanent.setPostalCode("2243");
         permanent.setCity("Kóka");
         permanent.setAddress("Szőlő utca 20.");
-        person.getAddresses().put(permanent.getAddressType(), permanent);
+        person.setPermanentAddress(permanent);
 
         Contact contact = new Contact();
         contact.setAddress(permanent);
@@ -54,7 +54,7 @@ public class DataLoader implements ApplicationRunner {
         temporary.setPostalCode("1111");
         temporary.setCity("Budapest");
         temporary.setAddress("Futrinka utca 1");
-        person.getAddresses().put(temporary.getAddressType(), temporary);
+        person.setTemporaryAddress(temporary);
 
         Contact contact2 = new Contact();
         contact2.setAddress(temporary);
