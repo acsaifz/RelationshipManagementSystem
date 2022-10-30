@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -87,5 +88,19 @@ public class RmsController {
     public String deletePerson(@PathVariable long id){
         personService.delete(id);
         return "redirect:/";
+    }
+
+    @PostMapping(value = {"/person/address/{id}/delete"})
+    public String deleteAddress(@PathVariable long id,
+                                @RequestHeader(value = "referer", required = false) String referer){
+        System.out.println("-----> Itt lesz majd a törlés");
+
+        addressService.delete(id);
+        return "redirect:" + unWrapPathFromUrl(referer);
+    }
+
+    private String unWrapPathFromUrl(String url){
+        int startIndex = url.indexOf("/",9);
+        return url.substring(startIndex);
     }
 }
