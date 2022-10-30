@@ -82,4 +82,10 @@ public class RmsController {
         return "redirect:/person/" + address.getPerson().getId() +
                 "/edit?saveAddress=" + address.getAddressType().name().toLowerCase();
     }
+
+    @PostMapping(value = {"/person/{id}/delete"})
+    public String deletePerson(@PathVariable long id){
+        personService.delete(id);
+        return "redirect:/";
+    }
 }
