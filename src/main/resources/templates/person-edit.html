@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>RMS project</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+<!-- Navigation-->
+
+<!-- Header-->
+<header class="bg-secondary py-5">
+    <div class="container">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Személy szerkesztés</h1>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 mt-5">
+        <div class="row" th:unless="${param.saveAddress == null}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.saveAddress.get(0) == 'permanent'}">
+                Állandó lakcím sikeresen elmentve!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.saveAddress.get(0) == 'temporary'}">
+                Ideiglenes lakcím sikeresen elmentve!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <h4>Adatok</h4>
+                <form th:action="@{/person/update}" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <input type="hidden" id="person-id" name="id" th:value="${person.id}" />
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Vezetéknév:</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" required
+                                    th:value="${person.lastName}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">Keresztnév:</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" required
+                                    th:value="${person.firstName}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthDate" class="form-label">Születési dátum:</label>
+                                <input type="date" class="form-control" id="birthDate" name="birthDate" required
+                                    th:value="${person.birthDate}"/>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <a th:href="@{/}" class="btn btn-secondary form-control" role="button">Mégse</a>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-secondary form-control">Mentés</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <!-- when doesn't have permanent address -->
+                    <div class="col" th:unless="${person.hasPermanentAddress()}">
+                        <h5>Állandó lakcím</h5>
+                        <div class="card h-100">
+                            <div class="card-body text-center py-5">
+                                <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newPermanentAddress">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                    </svg>
+                                </a>
+                                <h5>Új állandó lakcím</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- when has permanent address -->
+                    <div class="col" th:if="${person.hasPermanentAddress()}">
+                        <h5>Állandó lakcím</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form th:action="@{/person/address/update}" method="post">
+                                    <input type="hidden" id="permanent-address-id" name="id" th:value="${person.permanentAddress.id}">
+                                    <div class="mb-3">
+                                        <label  for="permanent-country" class="form-label">Ország</label>
+                                        <input type="text" class="form-control" id="permanent-country" name="country" required
+                                               th:value="${person.permanentAddress.getCountry()}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="permanent-postalCode" class="form-label">Irányítószám</label>
+                                        <input type="text" class="form-control" id="permanent-postalCode" name="postalCode" required
+                                               th:value="${person.permanentAddress.postalCode}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="permanent-city" class="form-label">Város</label>
+                                        <input type="text" class="form-control" id="permanent-city" name="city" required
+                                               th:value="${person.permanentAddress.city}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="permanent-address" class="form-label">Utca, Házszám</label>
+                                        <input type="text" class="form-control" id="permanent-address" name="address" required
+                                               th:value="${person.permanentAddress.address}"/>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary form-control">Mentés</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- when doesn't have temporary address -->
+                    <div class="col" th:unless="${person.hasTemporaryAddress()}">
+                        <h5>Ideiglenes lakcím</h5>
+                        <div class="card h-100">
+                            <div class="card-body text-center py-5">
+                                <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newTemporaryAddress">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                    </svg>
+                                </a>
+                                <h5>Új ideiglenes lakcím</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- when has temporary address -->
+                    <div class="col" th:if="${person.hasTemporaryAddress()}">
+                        <h5>Ideiglenes lakcím</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form th:action="@{/person/address/update}" method="post">
+                                    <input type="hidden" id="temporary-address-id" name="id" th:value="${person.temporaryAddress.id}">
+                                    <div class="mb-3">
+                                        <label  for="temporary-country" class="form-label">Ország</label>
+                                        <input type="text" class="form-control" id="temporary-country" name="country" required
+                                               th:value="${person.temporaryAddress.getCountry()}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="temporary-postalCode" class="form-label">Irányítószám</label>
+                                        <input type="text" class="form-control" id="temporary-postalCode" name="postalCode" required
+                                               th:value="${person.temporaryAddress.postalCode}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="temporary-city" class="form-label">Város</label>
+                                        <input type="text" class="form-control" id="temporary-city" name="city" required
+                                               th:value="${person.temporaryAddress.city}"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label  for="temporary-address" class="form-label">Utca, Házszám</label>
+                                        <input type="text" class="form-control" id="temporary-address" name="address" required
+                                               th:value="${person.temporaryAddress.address}"/>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary form-control">Mentés</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-secondary">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+</footer>
+<!-- Modal for new permanent address -->
+<div class="modal fade" id="newPermanentAddress" tabindex="-1" aria-labelledby="newPermanentAddressLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/person/{id}/address/permanent/add(id=${person.id})}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newPermanentAddressLabel">Új állandó lakcím</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label  for="permanent-modal-country" class="form-label">Ország</label>
+                        <input type="text" class="form-control" id="permanent-modal-country" name="country" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-postalCode" class="form-label">Irányítószám</label>
+                        <input type="text" class="form-control" id="permanent-modal-postalCode" name="postalCode" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-city" class="form-label">Város</label>
+                        <input type="text" class="form-control" id="permanent-modal-city" name="city" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-address" class="form-label">Utca, Házszám</label>
+                        <input type="text" class="form-control" id="permanent-modal-address" name="address" required/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    <button type="submit" class="btn btn-primary">Hozzáad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal for new temporary address -->
+<div class="modal fade" id="newTemporaryAddress" tabindex="-1" aria-labelledby="newTemporaryAddressLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/person/{id}/address/temporary/add(id=${person.id})}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newTemporaryAddressLabel">Új ideiglenes lakcím</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label  for="permanent-modal-country" class="form-label">Ország</label>
+                        <input type="text" class="form-control" id="temporery-modal-country" name="country" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-postalCode" class="form-label">Irányítószám</label>
+                        <input type="text" class="form-control" id="temporary-modal-postalCode" name="postalCode" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-city" class="form-label">Város</label>
+                        <input type="text" class="form-control" id="temporary-modal-city" name="city" required/>
+                    </div>
+                    <div class="mb-3">
+                        <label  for="permanent-modal-address" class="form-label">Utca, Házszám</label>
+                        <input type="text" class="form-control" id="temporary-modal-address" name="address" required/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    <button type="submit" class="btn btn-primary">Hozzáad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+</body>
+</html>
