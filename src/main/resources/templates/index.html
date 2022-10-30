@@ -48,9 +48,8 @@
                             <span th:text="${person.birthDate}"></span>
                         </div>
                         <div class="col-1 btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-trash"></i></button>
-
+                            <a th:href="@{/person/{id}/edit(id=${person.id})}" role="button" class="btn btn-sm btn-success"><i class="bi bi-pencil"></i></a>
+                            <button type="button" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
                         </div>
                     </div>
                     <div id="collapseOne" th:id="${'collapse-person-' + person.id}" class="accordion-collapse collapse"
