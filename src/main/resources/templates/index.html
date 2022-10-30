@@ -66,8 +66,14 @@
                                             <p><strong>Irányítószám: </strong><span th:text="${person.permanentAddress.postalCode}"></span></p>
                                             <p><strong>Város: </strong><span th:text="${person.permanentAddress.country}"></span></p>
                                             <p><strong>Utca, Házszám: </strong><span th:text="${person.permanentAddress.address}"></span></p>
-                                            <p><strong>Telefon: </strong><span th:text="${person.permanentAddress.contact.phone}"></span></p>
-                                            <p><strong>E-mail: </strong><span th:text="${person.permanentAddress.contact.email}"></span></p>
+                                            <div th:if="${person.permanentAddress.hasContact()}">
+                                                <p th:if="${person.permanentAddress.contact.hasPhone()}">
+                                                    <strong>Telefon: </strong><span th:text="${person.permanentAddress.contact.phone}"></span>
+                                                </p>
+                                                <p th:if="${person.permanentAddress.contact.hasEmail()}">
+                                                    <strong>E-mail: </strong><span th:text="${person.permanentAddress.contact.email}"></span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -79,8 +85,14 @@
                                             <p><strong>Irányítószám: </strong><span th:text="${person.temporaryAddress.postalCode}"></span></p>
                                             <p><strong>Város: </strong><span th:text="${person.temporaryAddress.country}"></span></p>
                                             <p><strong>Utca, Házszám: </strong><span th:text="${person.temporaryAddress.address}"></span></p>
-                                            <p><strong>Telefon: </strong><span th:text="${person.temporaryAddress.contact.phone}"></span></p>
-                                            <p><strong>E-mail: </strong><span th:text="${person.temporaryAddress.contact.email}"></span></p>
+                                            <div th:if="${person.temporaryAddress.hasContact()}">
+                                                <p th:if="${person.temporaryAddress.contact.hasPhone()}">
+                                                    <strong>Telefon: </strong><span th:text="${person.temporaryAddress.contact.phone}"></span>
+                                                </p>
+                                                <p th:if="${person.temporaryAddress.contact.hasEmail()}">
+                                                    <strong>E-mail: </strong><span th:text="${person.temporaryAddress.contact.email}"></span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
