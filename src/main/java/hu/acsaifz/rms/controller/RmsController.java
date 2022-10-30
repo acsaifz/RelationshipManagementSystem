@@ -2,6 +2,7 @@ package hu.acsaifz.rms.controller;
 
 import hu.acsaifz.rms.dto.AddressDto;
 import hu.acsaifz.rms.dto.PersonDto;
+import hu.acsaifz.rms.model.Address;
 import hu.acsaifz.rms.model.AddressType;
 import hu.acsaifz.rms.model.Person;
 import hu.acsaifz.rms.service.AddressService;
@@ -73,5 +74,12 @@ public class RmsController {
     public String addTemporaryAddress(AddressDto addressDto, @PathVariable long id){
         addressService.save(id,addressDto, AddressType.TEMPORARY);
         return "redirect:/person/" + id + "/edit";
+    }
+
+    @PostMapping(value = {"/person/address/update"})
+    public String updateAddress(AddressDto addressDto){
+        Address address = addressService.update(addressDto);
+        return "redirect:/person/" + address.getPerson().getId() +
+                "/edit?saveAddress=" + address.getAddressType().name().toLowerCase();
     }
 }
