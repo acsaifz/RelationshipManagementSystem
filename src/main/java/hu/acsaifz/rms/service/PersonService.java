@@ -25,6 +25,15 @@ public class PersonService {
         return personRepository.save(personDto.createPerson());
     }
 
+    public void update(PersonDto personDto){
+        Person person = findById(personDto.getId());
+        person.setFirstName(personDto.getFirstName());
+        person.setLastName(personDto.getLastName());
+        person.setBirthDate(personDto.getBirthDate());
+
+        personRepository.save(person);
+    }
+
     public List<Person> findAll(){
         return (List<Person>) personRepository.findAll();
     }
