@@ -3,15 +3,24 @@ package hu.acsaifz.rms.service;
 import hu.acsaifz.rms.dto.AddressDto;
 import hu.acsaifz.rms.model.Address;
 import hu.acsaifz.rms.model.AddressType;
+import hu.acsaifz.rms.model.Contact;
 import hu.acsaifz.rms.model.Person;
 import hu.acsaifz.rms.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class AddressService {
     private AddressRepository addressRepository;
     private PersonService personService;
+    private ContactService contactService;
+
+    @Autowired
+    public void setContactService(ContactService contactService) {
+        this.contactService = contactService;
+    }
 
     @Autowired
     public void setAddressRepository(AddressRepository addressRepository) {
@@ -39,5 +48,22 @@ public class AddressService {
         address.setAddress(addressDto.getAddress());
 
         return addressRepository.save(address);
+    }
+
+    @Transactional
+    public void delete(long id) {
+        Address address = addressRepository.findById(id).orElseThrow();
+        Contact contact = address.getContact();
+
+        address.setPerson(null);
+        address.setContact(null);
+
+        address = addressRepository.save(address);
+
+        if (contact != null) {
+            contactService.delete(contact);
+        }
+
+        addressRepository.delete(address);
     }
 }
