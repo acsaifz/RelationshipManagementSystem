@@ -1,6 +1,8 @@
 package hu.acsaifz.rms.dto;
 
 import hu.acsaifz.rms.model.Address;
+import hu.acsaifz.rms.model.AddressType;
+import hu.acsaifz.rms.model.Person;
 
 public class AddressDto {
     private long id;
@@ -19,6 +21,18 @@ public class AddressDto {
         this.postalCode = address.getPostalCode();
         this.city = address.getCity();
         this.address = address.getAddress();
+    }
+
+    public Address createAddress(Person person, AddressType addressType){
+        Address newAddress = new Address(person,addressType, this.country, this.postalCode,this.city, this.address);
+
+        if (addressType == AddressType.PERMANENT){
+            person.setPermanentAddress(newAddress);
+        } else {
+            person.setTemporaryAddress(newAddress);
+        }
+
+        return newAddress;
     }
 
     public long getId() {
