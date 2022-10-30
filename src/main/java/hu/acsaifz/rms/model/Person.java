@@ -27,6 +27,11 @@ public class Person {
         this.birthDate = birthDate;
     }
 
+    public Person(long id, String firstName, String lastName, LocalDate birthDate){
+        this(firstName, lastName, birthDate);
+        this.id = id;
+    }
+
 
     public Address getPermanentAddress(){
         return addresses.get(AddressType.PERMANENT);
