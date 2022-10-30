@@ -1,6 +1,7 @@
 package hu.acsaifz.rms.dto;
 
 import hu.acsaifz.rms.model.Person;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -8,6 +9,7 @@ public class PersonDto {
     private long id;
     private String firstName;
     private String lastName;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
 
 
