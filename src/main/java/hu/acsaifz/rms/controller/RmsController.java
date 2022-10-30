@@ -31,12 +31,12 @@ public class RmsController {
     @GetMapping(value = {"/person/add"})
     public String showAddPersonForm(Model model){
         model.addAttribute("editPerson", false);
-        return "person";
+        return "person-add";
     }
 
     @PostMapping(value = {"/person/add"})
     public String addPerson(PersonDto personDto){
-        Person person = personDto.createPerson();
+        Person person = personService.save(personDto);
         return "redirect:/person/" + person.getId() + "/edit";
     }
 
@@ -45,6 +45,6 @@ public class RmsController {
         Person person = personService.findById(id);
         model.addAttribute("person", person);
         model.addAttribute("editPerson", true);
-        return "person";
+        return "person-edit";
     }
 }
