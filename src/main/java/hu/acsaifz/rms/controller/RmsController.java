@@ -65,14 +65,12 @@ public class RmsController {
 
     @PostMapping(value = {"/person/{id}/address/permanent/add"})
     public String addPermanentAddress(AddressDto addressDto, @PathVariable long id){
-        System.out.println(id);
         addressService.save(id,addressDto, AddressType.PERMANENT);
         return "redirect:/person/" + id + "/edit";
     }
 
     @PostMapping(value = {"/person/{id}/address/temporary/add"})
     public String addTemporaryAddress(AddressDto addressDto, @PathVariable long id){
-        System.out.println(id);
         addressService.save(id,addressDto, AddressType.TEMPORARY);
         return "redirect:/person/" + id + "/edit";
     }
