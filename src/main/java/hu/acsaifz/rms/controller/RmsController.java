@@ -24,4 +24,9 @@ public class RmsController {
         model.addAttribute("persons", persons);
         return "index";
     }
+
+    @GetMapping(value = {"/person/add"})
+    public String showAddPersonForm(Model model){
+        return "person";
+    }
 }
