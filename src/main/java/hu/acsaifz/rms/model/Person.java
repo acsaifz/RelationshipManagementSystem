@@ -13,8 +13,8 @@ public class Person {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    @OneToMany(mappedBy = "id", cascade = {CascadeType.ALL})
-    @MapKey(name = "addressType")
+    @OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @MapKeyJoinColumn(name = "address_type")
     private Map<AddressType, Address> addresses = new EnumMap<>(AddressType.class);
 
     public Person(){
