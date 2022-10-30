@@ -47,4 +47,10 @@ public class RmsController {
         model.addAttribute("editPerson", true);
         return "person-edit";
     }
+
+    @PostMapping(value = {"/person/update"})
+    public String updatePerson(PersonDto personDto){
+        personService.update(personDto);
+        return "redirect:/";
+    }
 }
