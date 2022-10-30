@@ -52,11 +52,5 @@ public class DataLoader implements ApplicationRunner {
         permanent2.setContact(permanentContact2);
 
         personService.save(person2);
-
-        Person johnDoe = personService.findById(1);
-        Person janeDoe =  personService.findById(2);
-
-        System.out.println(johnDoe.hasPermanentAddress());
-        System.out.println(johnDoe.hasTemporaryAddress());
     }
 }
