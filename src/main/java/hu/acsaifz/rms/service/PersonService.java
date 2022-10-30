@@ -1,5 +1,6 @@
 package hu.acsaifz.rms.service;
 
+import hu.acsaifz.rms.dto.PersonDto;
 import hu.acsaifz.rms.model.Person;
 import hu.acsaifz.rms.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,12 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public void save(Person person){
-        personRepository.save(person);
+    public Person save(Person person){
+        return personRepository.save(person);
+    }
+
+    public Person save(PersonDto personDto){
+        return personRepository.save(personDto.createPerson());
     }
 
     public List<Person> findAll(){
