@@ -27,41 +27,36 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void generatePerson() {
-        Person person = new Person();
-        person.setFirstName("John");
-        person.setLastName("Doe");
-        person.setBirthDate(LocalDate.of(1988, 5, 17));
+        Person person = new Person("John", "Doe", LocalDate.of(1988, 11, 9));
 
-        Address permanent = new Address();
-        permanent.setPerson(person);
-        permanent.setAddressType(AddressType.PERMANENT);
-        permanent.setCountry("Magyarország");
-        permanent.setPostalCode("2243");
-        permanent.setCity("Kóka");
-        permanent.setAddress("Szőlő utca 20.");
+        Address permanent = new Address(person, AddressType.PERMANENT, "Magyarország", "2243", "Kóka", "Szőlő utca 20.");
         person.setPermanentAddress(permanent);
 
-        Contact contact = new Contact();
-        contact.setAddress(permanent);
-        contact.setPhone("+36301234567");
-        contact.setEmail("john.doe@gmail.com");
-        permanent.setContact(contact);
+        Contact permanentContact = new Contact(permanent, "+36 30 123 4567", "john.doe@gmail.com");
+        permanent.setContact(permanentContact);
 
-        Address temporary = new Address();
-        temporary.setPerson(person);
-        temporary.setAddressType(AddressType.TEMPORARY);
-        temporary.setCountry("Magyarország");
-        temporary.setPostalCode("1111");
-        temporary.setCity("Budapest");
-        temporary.setAddress("Futrinka utca 1");
+        Address temporary = new Address(person, AddressType.TEMPORARY, "Magyarország", "1111", "Budapest", "Futrinka utca 1.");
         person.setTemporaryAddress(temporary);
 
-        Contact contact2 = new Contact();
-        contact2.setAddress(temporary);
-        contact2.setPhone("+36203213213");
-        contact2.setEmail("john.doe2@gmail.com");
-        temporary.setContact(contact2);
+        Contact temporaryContact = new Contact(temporary, "+36 20 765 4321", "john.doe2@gmail.com");
+        temporary.setContact(temporaryContact);
 
         personService.save(person);
+
+        Person person2 = new Person("Jane", "Doe", LocalDate.of(1990, 1,25));
+
+        Address permanent2 = new Address(person2, AddressType.PERMANENT, "Magyarország", "3214", "Sülysáp", "Vasút sor 19.");
+        person2.setPermanentAddress(permanent2);
+
+        Contact permanentContact2 = new Contact(permanent2, "+36 30 303 0303","jane.doe@gmail.com");
+        permanent2.setContact(permanentContact2);
+
+        personService.save(person2);
+
+        Person johnDoe = personService.findById(1);
+        Person janeDoe =  personService.findById(2);
+
+        System.out.println(johnDoe.hasPermanentAddress());
+        System.out.println(johnDoe.hasTemporaryAddress());
     }
 }
