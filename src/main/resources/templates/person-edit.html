@@ -26,6 +26,7 @@
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 mt-5">
+        <!-- Alerts -->
         <div class="row" th:unless="${param.saveAddress == null}">
             <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.saveAddress.get(0) == 'permanent'}">
                 Állandó lakcím sikeresen elmentve!
@@ -41,6 +42,14 @@
                 Elérhetőség sikeresen hozzáadva.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'saveContacts'}">
+                Elérhetőség sikeresen elmentve.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'deleteContacts'}">
+                Elérhetőség sikeresen törölve.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </div>
         <div class="row" th:unless="${param.error == null}">
             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error.get(0) == 'invalidContacts'}">
@@ -48,6 +57,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
+        <!-- Content -->
         <div class="row justify-content-center">
             <div class="col-4">
                 <h4>Adatok</h4>
@@ -72,15 +82,17 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <a th:href="@{/}" class="btn btn-secondary form-control" role="button">Mégse</a>
-                                </div>
-                                <div class="col">
                                     <button class="btn btn-secondary form-control">Mentés</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+                <div class="row justify-content-center mt-3">
+                    <div class="col px-3 mx-3">
+                        <a th:href="@{/}" class="btn btn-secondary form-control" role="button">Visza a főoldara</a>
+                    </div>
+                </div>
             </div>
             <div class="col-8">
                 <div class="row">
@@ -140,7 +152,7 @@
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <h6>Elérhetőségek</h6>
                                 </div>
                                 <!-- when permanent address doesn't have contacts -->
@@ -157,7 +169,7 @@
                                 <!-- when permanent address has contacts -->
                                 <div class="card" th:if="${person.permanentAddress.hasContact()}">
                                     <div class="card-body">
-                                        <form action="">
+                                        <form th:action="@{/person/address/contacts/update}" method="post">
                                             <input type="hidden" id="permanent-contacts-id" name="id"
                                                    th:value="${person.permanentAddress.contact.id}" />
                                             <div class="mb-3">
@@ -169,6 +181,9 @@
                                                 <label for="permanent-contacts-email" class="form-label"></label>
                                                 <input type="email" class="form-control" id="permanent-contacts-email" name="email"
                                                     th:value="${person.permanentAddress.contact.email}"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button class="btn btn-secondary form-control">Mentés</button>
                                             </div>
                                         </form>
                                     </div>
@@ -230,7 +245,7 @@
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
-                                <div class="row">
+                                <div class="row pt-3">
                                     <h6>Elérhetőségek</h6>
                                 </div>
                                 <!-- when temporary address doesn't have contact -->
@@ -247,7 +262,7 @@
                                 <!-- when temporary address has contact -->
                                 <div class="card" th:if="${person.temporaryAddress.hasContact()}">
                                     <div class="card-body">
-                                        <form action="">
+                                        <form th:action="@{/person/address/contacts/update}" method="post">
                                             <input type="hidden" id="temporary-contacts-id" name="id"
                                                    th:value="${person.temporaryAddress.contact.id}" />
                                             <div class="mb-3">
@@ -259,6 +274,9 @@
                                                 <label for="permanent-contacts-email" class="form-label"></label>
                                                 <input type="email" class="form-control" id="temporary-contacts-email" name="email"
                                                     th:value="${person.temporaryAddress.contact.email}"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button class="btn btn-secondary form-control">Mentés</button>
                                             </div>
                                         </form>
                                     </div>
