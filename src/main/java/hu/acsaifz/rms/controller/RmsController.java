@@ -96,7 +96,7 @@ public class RmsController {
     @PostMapping(value = {"/person/{id}/delete"})
     public String deletePerson(@PathVariable long id){
         personService.delete(id);
-        return "redirect:/";
+        return "redirect:/?success=deletePerson";
     }
 
     @PostMapping(value = {"/person/address/{id}/delete"})

@@ -25,6 +25,14 @@
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 mt-5">
+        <!-- Alerts -->
+        <div class="row" th:unless="${param.success == null}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'deletePerson'}">
+                Személy sikeresen törölve
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <!-- Content -->
         <div class="row justify-content-end mb-3">
             <div class="col-auto">
                 <a th:href="@{/person/add}" class="btn btn-outline-secondary" role="button">Új személy hozzáadása</a>
