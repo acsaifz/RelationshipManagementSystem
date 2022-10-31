@@ -106,5 +106,12 @@ class PersonServiceTest {
         verifyNoMoreInteractions(personRepository);
     }
 
+    @Test
+    void testDelete(){
+        doNothing().when(personRepository).deleteById(anyLong());
 
+        personService.delete(1);
+        verify(personRepository, times(1)).deleteById(anyLong());
+        verifyNoMoreInteractions(personRepository);
+    }
 }
