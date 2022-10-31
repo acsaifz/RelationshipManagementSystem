@@ -38,9 +38,7 @@ public class AddressService {
     }
 
     public Address update(AddressDto addressDto){
-        Address address = addressRepository.findById(addressDto.getId()).orElseThrow(
-                () -> new IllegalArgumentException("No such address: id = " + addressDto.getId())
-        );
+        Address address = this.findById(addressDto.getId());
 
         address.setCountry(addressDto.getCountry());
         address.setPostalCode(addressDto.getPostalCode());
@@ -52,7 +50,7 @@ public class AddressService {
 
     @Transactional
     public void delete(long id) {
-        Address address = addressRepository.findById(id).orElseThrow();
+        Address address = this.findById(id);
         Contact contact = address.getContact();
 
         address.setPerson(null);
@@ -65,5 +63,11 @@ public class AddressService {
         }
 
         addressRepository.delete(address);
+    }
+
+    public Address findById(long id){
+        return addressRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("No such address: id = " + id)
+        );
     }
 }
