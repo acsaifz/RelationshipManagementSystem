@@ -25,8 +25,6 @@ class AddressServiceTest {
     private AddressRepository addressRepository;
     @Mock
     private PersonService personService;
-    @Mock
-    private ContactService contactService;
 
     @InjectMocks
     private AddressService addressService;
