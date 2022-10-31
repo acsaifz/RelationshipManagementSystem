@@ -42,10 +42,6 @@ public class PersonService {
         return personRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No such person: id = " + id));
     }
 
-    public void delete(Person person){
-        personRepository.delete(person);
-    }
-
     public void delete(long id){
         personRepository.deleteById(id);
     }
