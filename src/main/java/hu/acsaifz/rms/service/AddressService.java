@@ -37,6 +37,10 @@ public class AddressService {
         addressRepository.save(addressDto.createAddress(person, addressType));
     }
 
+    public void save(Address address){
+        addressRepository.save(address);
+    }
+
     public Address update(AddressDto addressDto){
         Address address = this.findById(addressDto.getId());
 
