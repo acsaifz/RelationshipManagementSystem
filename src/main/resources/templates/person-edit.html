@@ -74,7 +74,7 @@
                 <div class="row">
                     <!-- when doesn't have permanent address -->
                     <div class="col" th:unless="${person.hasPermanentAddress()}">
-                        <h5>Állandó lakcím</h5>
+                        <h4>Állandó lakcím</h4>
                         <div class="card h-100">
                             <div class="card-body text-center py-5">
                                 <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newPermanentAddress">
@@ -88,7 +88,18 @@
                     </div>
                     <!-- when has permanent address -->
                     <div class="col" th:if="${person.hasPermanentAddress()}">
-                        <h5>Állandó lakcím</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Állandó lakcím</h4>
+                            </div>
+                            <div class="col-auto">
+                                <form th:action="@{/person/address/{id}/delete(id=${person.permanentAddress.id})}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body">
                                 <form th:action="@{/person/address/update}" method="post">
@@ -122,7 +133,7 @@
                     </div>
                     <!-- when doesn't have temporary address -->
                     <div class="col" th:unless="${person.hasTemporaryAddress()}">
-                        <h5>Ideiglenes lakcím</h5>
+                        <h4>Ideiglenes lakcím</h4>
                         <div class="card h-100">
                             <div class="card-body text-center py-5">
                                 <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newTemporaryAddress">
@@ -136,7 +147,16 @@
                     </div>
                     <!-- when has temporary address -->
                     <div class="col" th:if="${person.hasTemporaryAddress()}">
-                        <h5>Ideiglenes lakcím</h5>
+                        <div class="row">
+                            <div class="col">
+                                <h4>Ideiglenes lakcím</h4>
+                            </div>
+                            <div class="col-auto">
+                                <form th:action="@{/person/address/{id}/delete(id=${person.temporaryAddress.id})}" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
                         <div class="card">
                             <div class="card-body">
                                 <form th:action="@{/person/address/update}" method="post">
