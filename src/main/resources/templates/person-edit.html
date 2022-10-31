@@ -152,8 +152,17 @@
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
-                                <div class="row pt-3">
-                                    <h6>Elérhetőségek</h6>
+                                <div class="row pt-3 pb-1">
+                                    <div class="col">
+                                        <h6>Elérhetőségek</h6>
+                                    </div>
+                                    <div class="col-auto" th:if="${person.permanentAddress.hasContact()}">
+                                        <form th:action="@{/person/address/contacts/{id}/delete(id=${person.permanentAddress.contact.id})}" method="post">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <!-- when permanent address doesn't have contacts -->
                                 <div class="card" th:unless="${person.permanentAddress.hasContact()}">
@@ -245,8 +254,17 @@
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
-                                <div class="row pt-3">
-                                    <h6>Elérhetőségek</h6>
+                                <div class="row pt-3 pb-1">
+                                    <div class="col">
+                                        <h6>Elérhetőségek</h6>
+                                    </div>
+                                    <div class="col-auto" th:if="${person.temporaryAddress.hasContact()}">
+                                        <form th:action="@{/person/address/contacts/{id}/delete(id=${person.temporaryAddress.contact.id})}" method="post">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <!-- when temporary address doesn't have contact -->
                                 <div class="card" th:unless="${person.temporaryAddress.hasContact()}">
@@ -364,7 +382,7 @@
     </div>
 </div>
 <!-- Modal for new contacts of permanent address -->
-<div class="modal fade" id="newPermanentContacts" tabindex="-1" aria-labelledby="newPermanentContactsLabel" aria-hidden="true">
+<div class="modal fade" id="newPermanentContacts" tabindex="-1" aria-labelledby="newPermanentContactsLabel" aria-hidden="true" th:if="${person.hasPermanentAddress()}">
     <div class="modal-dialog">
         <form th:action="@{/person/address/{id}/contacts/add(id=${person.permanentAddress.id})}" method="post">
             <div class="modal-content">
@@ -391,7 +409,7 @@
     </div>
 </div>
 <!-- Modal for new contacts of temporary address -->
-<div class="modal fade" id="newTemporaryContacts" tabindex="-1" aria-labelledby="newTemporaryContactsLabel" aria-hidden="true">
+<div class="modal fade" id="newTemporaryContacts" tabindex="-1" aria-labelledby="newTemporaryContactsLabel" aria-hidden="true" th:if="${person.hasTemporaryAddress()}">
     <div class="modal-dialog">
         <form th:action="@{/person/address/{id}/contacts/add(id=${person.temporaryAddress.id})}" method="post">
             <div class="modal-content">
