@@ -36,6 +36,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
+        <div class="row" th:unless="${param.success == null}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'addContacts'}">
+                Elérhetőség sikeresen hozzáadva.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <div class="row" th:unless="${param.error == null}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error.get(0) == 'invalidContacts'}">
+                Elérhetőség hozzáadása sikertelen! Legalább egy elérhetőséget meg kell adnod!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
         <div class="row justify-content-center">
             <div class="col-4">
                 <h4>Adatok</h4>
@@ -75,7 +87,7 @@
                     <!-- when doesn't have permanent address -->
                     <div class="col" th:unless="${person.hasPermanentAddress()}">
                         <h4>Állandó lakcím</h4>
-                        <div class="card h-100">
+                        <div class="card">
                             <div class="card-body text-center py-5">
                                 <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newPermanentAddress">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -124,17 +136,50 @@
                                         <input type="text" class="form-control" id="permanent-address" name="address" required
                                                th:value="${person.permanentAddress.address}"/>
                                     </div>
-                                    <div>
+                                    <div class="mb-3">
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
+                                <div class="row">
+                                    <h6>Elérhetőségek</h6>
+                                </div>
+                                <!-- when permanent address doesn't have contacts -->
+                                <div class="card" th:unless="${person.permanentAddress.hasContact()}">
+                                    <div class="card-body text-center">
+                                        <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newPermanentContacts">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                            </svg>
+                                        </a>
+                                        <h5>Elérhetőség hozzáadás</h5>
+                                    </div>
+                                </div>
+                                <!-- when permanent address has contacts -->
+                                <div class="card" th:if="${person.permanentAddress.hasContact()}">
+                                    <div class="card-body">
+                                        <form action="">
+                                            <input type="hidden" id="permanent-contacts-id" name="id"
+                                                   th:value="${person.permanentAddress.contact.id}" />
+                                            <div class="mb-3">
+                                                <label for="permanent-contacts-phone" class="form-label">Telefon</label>
+                                                <input type="text" class="form-control" id="permanent-contacts-phone" name="phone"
+                                                    th:value="${person.permanentAddress.contact.phone}"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="permanent-contacts-email" class="form-label"></label>
+                                                <input type="email" class="form-control" id="permanent-contacts-email" name="email"
+                                                    th:value="${person.permanentAddress.contact.email}"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- when doesn't have temporary address -->
                     <div class="col" th:unless="${person.hasTemporaryAddress()}">
                         <h4>Ideiglenes lakcím</h4>
-                        <div class="card h-100">
+                        <div class="card">
                             <div class="card-body text-center py-5">
                                 <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newTemporaryAddress">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -181,10 +226,43 @@
                                         <input type="text" class="form-control" id="temporary-address" name="address" required
                                                th:value="${person.temporaryAddress.address}"/>
                                     </div>
-                                    <div>
+                                    <div class="mb-3">
                                         <button class="btn btn-secondary form-control">Mentés</button>
                                     </div>
                                 </form>
+                                <div class="row">
+                                    <h6>Elérhetőségek</h6>
+                                </div>
+                                <!-- when temporary address doesn't have contact -->
+                                <div class="card" th:unless="${person.temporaryAddress.hasContact()}">
+                                    <div class="card-body text-center">
+                                        <a class="nav-link stretched-link" role="button" data-bs-toggle="modal" data-bs-target="#newTemporaryContacts">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                                            </svg>
+                                        </a>
+                                        <h5>Elérhetőség hozzáadás</h5>
+                                    </div>
+                                </div>
+                                <!-- when temporary address has contact -->
+                                <div class="card" th:if="${person.temporaryAddress.hasContact()}">
+                                    <div class="card-body">
+                                        <form action="">
+                                            <input type="hidden" id="temporary-contacts-id" name="id"
+                                                   th:value="${person.temporaryAddress.contact.id}" />
+                                            <div class="mb-3">
+                                                <label for="permanent-contacts-phone" class="form-label">Telefon</label>
+                                                <input type="text" class="form-control" id="temporary-contacts-phone" name="phone"
+                                                    th:value="${person.temporaryAddress.contact.phone}"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="permanent-contacts-email" class="form-label"></label>
+                                                <input type="email" class="form-control" id="temporary-contacts-email" name="email"
+                                                    th:value="${person.temporaryAddress.contact.email}"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -257,6 +335,60 @@
                     <div class="mb-3">
                         <label  for="permanent-modal-address" class="form-label">Utca, Házszám</label>
                         <input type="text" class="form-control" id="temporary-modal-address" name="address" required/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    <button type="submit" class="btn btn-primary">Hozzáad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal for new contacts of permanent address -->
+<div class="modal fade" id="newPermanentContacts" tabindex="-1" aria-labelledby="newPermanentContactsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/person/address/{id}/contacts/add(id=${person.permanentAddress.id})}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newPermanentContactsLabel">Új állandó lakcím</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="permanent-contacts-modal-phone" class="form-label">Telefon</label>
+                        <input type="text" class="form-control" id="permanent-contacts-modal-phone" name="phone" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="permanent-contacts-modal-email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="permanent-contacts-modal-email" name="email" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mégse</button>
+                    <button type="submit" class="btn btn-primary">Hozzáad</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal for new contacts of temporary address -->
+<div class="modal fade" id="newTemporaryContacts" tabindex="-1" aria-labelledby="newTemporaryContactsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form th:action="@{/person/address/{id}/contacts/add(id=${person.temporaryAddress.id})}" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newTemporaryContactsLabel">Új állandó lakcím</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="permanent-contacts-modal-phone" class="form-label">Telefon</label>
+                        <input type="text" class="form-control" id="temporary-contacts-modal-phone" name="phone" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="permanent-contacts-modal-email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="temporary-contacts-modal-email" name="email" />
                     </div>
                 </div>
                 <div class="modal-footer">
