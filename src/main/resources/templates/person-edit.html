@@ -27,17 +27,19 @@
 <section class="py-5">
     <div class="container px-4 mt-5">
         <!-- Alerts -->
-        <div class="row" th:unless="${param.saveAddress == null}">
-            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.saveAddress.get(0) == 'permanent'}">
+        <div class="row" th:unless="${param.success == null}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'savepermanent'}">
                 Állandó lakcím sikeresen elmentve!
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.saveAddress.get(0) == 'temporary'}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'savetemporary'}">
                 Ideiglenes lakcím sikeresen elmentve!
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        </div>
-        <div class="row" th:unless="${param.success == null}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'deleteAddress'}">
+                Lakcím sikeresen törölve
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success.get(0) == 'addContacts'}">
                 Elérhetőség sikeresen hozzáadva.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

@@ -90,7 +90,7 @@ public class RmsController {
     public String updateAddress(AddressDto addressDto){
         Address address = addressService.update(addressDto);
         return "redirect:/person/" + address.getPerson().getId() +
-                "/edit?saveAddress=" + address.getAddressType().name().toLowerCase();
+                "/edit?success=save" + address.getAddressType().name().toLowerCase();
     }
 
     @PostMapping(value = {"/person/{id}/delete"})
@@ -102,10 +102,9 @@ public class RmsController {
     @PostMapping(value = {"/person/address/{id}/delete"})
     public String deleteAddress(@PathVariable long id,
                                 @RequestHeader(value = "referer", required = false) String referer){
-        System.out.println("-----> Itt lesz majd a törlés");
 
         addressService.delete(id);
-        return "redirect:" + unWrapPathFromUrl(referer);
+        return "redirect:" + unWrapPathFromUrl(referer) +"?success=deleteAddress";
     }
 
     private String unWrapPathFromUrl(String url){
