@@ -133,14 +133,15 @@ public class RmsController {
     public String updateContacts(ContactDto contactDto,
                                  @RequestHeader(value = "referer", required = false) String referer){
         if (isContactDtoBlank(contactDto)){
-            Contact contact = contactService.findById(contactDto.getId());
+            return deleteContacts(contactDto.getId(), referer);
+            /*Contact contact = contactService.findById(contactDto.getId());
 
             Address address = contact.getAddress();
             address.setContact(null);
             addressService.save(address);
 
             contactService.delete(contact);
-            return "redirect:" + unWrapPathFromUrl(referer) + "?success=deleteContacts";
+            return "redirect:" + unWrapPathFromUrl(referer) + "?success=deleteContacts";*/
         }
 
         contactService.update(contactDto);
@@ -150,5 +151,18 @@ public class RmsController {
 
     private boolean isContactDtoBlank(ContactDto contactDto){
         return contactDto.getEmail().isBlank() && contactDto.getPhone().isBlank();
+    }
+
+    @PostMapping(value = {"/person/address/contacts/{id}/delete"})
+    public String deleteContacts(@PathVariable long id,
+                                 @RequestHeader(value = "referer", required = false) String referer){
+        Contact contact = contactService.findById(id);
+
+        Address address = contact.getAddress();
+        address.setContact(null);
+        addressService.save(address);
+
+        contactService.delete(contact);
+        return "redirect:" + unWrapPathFromUrl(referer) + "?success=deleteContacts";
     }
 }
