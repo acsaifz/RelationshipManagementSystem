@@ -1,11 +1,14 @@
 package hu.acsaifz.rms.controller;
 
 import hu.acsaifz.rms.dto.AddressDto;
+import hu.acsaifz.rms.dto.ContactDto;
 import hu.acsaifz.rms.dto.PersonDto;
 import hu.acsaifz.rms.model.Address;
 import hu.acsaifz.rms.model.AddressType;
+import hu.acsaifz.rms.model.Contact;
 import hu.acsaifz.rms.model.Person;
 import hu.acsaifz.rms.service.AddressService;
+import hu.acsaifz.rms.service.ContactService;
 import hu.acsaifz.rms.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,12 @@ import java.util.List;
 public class RmsController {
     private PersonService personService;
     private AddressService addressService;
+    private ContactService contactService;
+
+    @Autowired
+    public void setContactService(ContactService contactService) {
+        this.contactService = contactService;
+    }
 
     @Autowired
     public void setAddressService(AddressService addressService) {
@@ -101,6 +110,22 @@ public class RmsController {
 
     private String unWrapPathFromUrl(String url){
         int startIndex = url.indexOf("/",9);
-        return url.substring(startIndex);
+        int endIndex = url.indexOf("?");
+        return endIndex < 0 ? url.substring(startIndex) : url.substring(startIndex,endIndex);
+    }
+
+    @PostMapping(value = {"/person/address/{id}/contacts/add"})
+    public String addContacts(ContactDto contactDto,@PathVariable long id,
+            @RequestHeader(value = "referer", required = false) String referer){
+        if (contactDto.getPhone().isBlank() && contactDto.getEmail().isBlank()){
+            return "redirect:" + unWrapPathFromUrl(referer) + "?error=invalidContacts";
+        }
+
+        Address address = addressService.findById(id);
+        Contact contact = contactService.save(contactDto,address);
+        address.setContact(contact);
+        addressService.save(address);
+
+        return "redirect:" + unWrapPathFromUrl(referer) + "?success=addContacts";
     }
 }
