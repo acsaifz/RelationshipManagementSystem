@@ -1,5 +1,6 @@
 package hu.acsaifz.rms.dto;
 
+import hu.acsaifz.rms.model.Address;
 import hu.acsaifz.rms.model.Contact;
 
 public class ContactDto {
@@ -15,6 +16,10 @@ public class ContactDto {
         this.id = contact.getId();
         this.phone = contact.getPhone();
         this.email = contact.getEmail();
+    }
+
+    public Contact createContact(Address address){
+        return new Contact(address, this.phone, this.email);
     }
 
     public long getId() {
