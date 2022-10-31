@@ -134,14 +134,6 @@ public class RmsController {
                                  @RequestHeader(value = "referer", required = false) String referer){
         if (isContactDtoBlank(contactDto)){
             return deleteContacts(contactDto.getId(), referer);
-            /*Contact contact = contactService.findById(contactDto.getId());
-
-            Address address = contact.getAddress();
-            address.setContact(null);
-            addressService.save(address);
-
-            contactService.delete(contact);
-            return "redirect:" + unWrapPathFromUrl(referer) + "?success=deleteContacts";*/
         }
 
         contactService.update(contactDto);
