@@ -10,12 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactService {
     private ContactRepository contactRepository;
-    private AddressService addressService;
 
-    @Autowired
-    public void setAddressService(AddressService addressService) {
-        this.addressService = addressService;
-    }
 
     @Autowired
     public void setContactRepository(ContactRepository contactRepository) {
@@ -26,8 +21,7 @@ public class ContactService {
         contactRepository.delete(contact);
     }
 
-    public Contact save(ContactDto contactDto, long addressId){
-        Address address = addressService.findById(addressId);
+    public Contact save(ContactDto contactDto, Address address){
         return contactRepository.save(contactDto.createContact(address));
     }
 }
