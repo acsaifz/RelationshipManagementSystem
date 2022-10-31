@@ -24,4 +24,19 @@ public class ContactService {
     public Contact save(ContactDto contactDto, Address address){
         return contactRepository.save(contactDto.createContact(address));
     }
+
+    public Contact findById(long id){
+        return contactRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("No such contact: id = " + id)
+        );
+    }
+
+    public void update(ContactDto contactDto){
+        Contact contact = findById(contactDto.getId());
+
+        contact.setPhone(contactDto.getPhone());
+        contact.setEmail(contactDto.getEmail());
+
+        contactRepository.save(contact);
+    }
 }
