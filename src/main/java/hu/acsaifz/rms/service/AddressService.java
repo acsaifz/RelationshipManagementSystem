@@ -56,10 +56,13 @@ public class AddressService {
     public void delete(long id) {
         Address address = this.findById(id);
         Contact contact = address.getContact();
+        Person person = address.getPerson();
 
+        person.getAddresses().remove(address.getAddressType());
         address.setPerson(null);
         address.setContact(null);
 
+        personService.save(person);
         address = addressRepository.save(address);
 
         if (contact != null) {

@@ -15,6 +15,7 @@ public class Person {
     private LocalDate birthDate;
     @OneToMany(mappedBy = "person", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @MapKeyJoinColumn(name = "address_type")
+    @MapKey(name = "addressType")
     private Map<AddressType, Address> addresses = new EnumMap<>(AddressType.class);
 
     public Person(){
